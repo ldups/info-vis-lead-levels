@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <!-- import D3 Version 6 here or at the end of the body -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.7.0/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/noframework.waypoints.js"></script>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+
+  <body>
+    <!-- create an SVG canvas for us to modify -->
+    <div id="container">
+        <div id="leadexposure">
+            <h2>Effects of lead exposure</h2>
+            <p>CDC: Exposure to lead can seriously harm a child's health and cause well-documented adverse effects such as:
+                <ul>
+                    <li>Damage to the brain and nervous system</li>
+                    <li>Slowed growth and development</li>
+                    <li>Learning and behavior problems</li>
+                    <li>Hearing and speech problems</li>
+                </ul>
+                This can cause:
+                <ul>
+                    <li>Lower IQ</li>
+                    <li>Decreased ability to pay attention</li>
+                    <li>Underperformance in school</li>
+                </ul>
+                There is also evidence that childhood exposure to lead can cause long-term harm.
+                Lead exposure in children is often difficult to see. Most children have no obvious immediate symptoms.
+        </div>
+        <div id="div2">
+            <h2>Bar chart</h2>
+            <p>The bar chart of lead levels in different cities</p>
+        </div>
+        <div id="div3">
+            <h2>Housing age</h2>
+            <p>Something about old homes having lead</p>
+        </div>
+        <div id="div4">
+            <h2>Smelting sites</h2>
+            <p>Only <b>one student</b> has green eyes!</p>
+        </div>
+        <div id="div5">
+            <h1>Credits</h1>
+            <p>Stephen MacNeil</p>
+            <p>Baron Watts</p>
+            <p>Russell Goldenberg</p>
+
+        </div>
+    </div>
+    <div class="fixed">
+        <svg id="canvas" width="500" height="500"></svg>
+    </div>
+        
+    <!-- load our custom D3 code (must happen after D3 is loaded) -->
+    <script type="module" src="./scrollytelling.js"></script>
+  </body>
+</html>
