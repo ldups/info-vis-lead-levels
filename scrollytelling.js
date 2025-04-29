@@ -5,8 +5,8 @@ import { housing_map } from "./housing_age_map.js";
 let svg = d3.select("#canvas");
 
 //set the width and height
-svg.attr('width',500)
-    .attr('height',500)
+svg.attr('width',600)
+    .attr('height',600)
 
 Promise.all([
     d3.json("./data//child_blood_lead_levels_by_zip.geojson"),
@@ -34,7 +34,7 @@ Promise.all([
         let built_1939 = +zipcode.S2504_C03_015E;
         let total_homes = built_2020+ built_2010_2019 + built_2000_2009+ built_1980_1999+built_1960_1979+built_1940_1959+built_1939;
         let before_1980 = built_1960_1979 + built_1940_1959 + built_1939;
-        let perc_before_1980 = before_1980 / total_homes;
+        let perc_before_1980 = (before_1980 / total_homes) * 100;
         housing_dictionary.set(parsed_zipcode, perc_before_1980);
     })
 
@@ -59,15 +59,17 @@ Promise.all([
     new scroll('div5', '75%', display_lead_map, grid4); //create a grid for div4
 
     function display_lead_map(){
+        clear();
         lead_map(svg, lead_dictionary, topology);
     }
 
     function display_housing_map(){
+        clear();
         housing_map(svg, housing_dictionary, topology);
     }
 
     function clear(){
-        svg.selectAll('.item').exit().remove();
+        svg.selectAll('*').remove();
     }
 
     function grid3(){
