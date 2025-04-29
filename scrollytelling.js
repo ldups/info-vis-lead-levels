@@ -1,6 +1,6 @@
 import { lead_map } from "./lead_map.js";
 import { housing_map } from "./housing_age_map.js";
-import { smelter_map } from "./smelter_map.js";
+import { smelter_map, draw_radius } from "./smelter_map.js";
 import { school_performance_chart } from "./school_performance_chart.js";
 import { bar_chart } from "./bar_chart.js";
 
@@ -67,17 +67,16 @@ Promise.all([
     new scroll('lead-zipcode-map', '75%', display_lead_map, clear); //create a grid for div3
     new scroll('housing-zipcode-map', '75%', display_housing_map, clear);  //create a grid for div4
     new scroll('smelting-map', '75%', display_smelter_map, clear); //create a grid for div4
+    new scroll('smelting-impact', '75%', display_smelter_with_radius, clear);
 
     function display_lead_map() {
         clear();
         lead_map(svg, lead_dictionary, topology);
-        document.getElementById("radius-button-container").style.display = "none";
     }
 
     function display_housing_map() {
         clear();
         housing_map(svg, housing_dictionary, topology);
-        document.getElementById("radius-button-container").style.display = "none";
     }
 
     function display_city_bar_chart() {
@@ -88,13 +87,11 @@ Promise.all([
         const combined = bottom5.concat(top5);
 
         bar_chart(svg, combined);
-        document.getElementById("radius-button-container").style.display = "none";
     }
 
     function display_smelter_map() {
         clear();
         smelter_map(svg, topology, smelters);
-        document.getElementById("radius-button-container").style.display = "block";
     }
 
     function clear() {
@@ -105,6 +102,9 @@ Promise.all([
         clear();
         school_performance_chart(svg, academic);
     }
-
-
+    function display_smelter_with_radius() {
+        const projection = d3.geoAlbersUsa().fitSize([500, 500], topology);
+        smelter_map(svg, topology, smelters, { instant: true });
+        draw_radius(svg, smelters, projection);
+    }
 })

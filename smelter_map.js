@@ -1,4 +1,4 @@
-export function smelter_map(svg, topology, smelters) {
+export function smelter_map(svg, topology, smelters, options = {}) {
     // map constraints
     var projection = d3.geoAlbersUsa().fitSize([500, 500], topology);
     var path = d3.geoPath(projection);
@@ -16,21 +16,31 @@ export function smelter_map(svg, topology, smelters) {
     const tooltip = d3.select("#tooltip");
 
     // draw smelters
-    svg.append("g")
+    const smeltersSelection = svg.append("g")
+        .attr("class", "smelters")
         .selectAll("circle")
         .data(smelters)
         .join("circle")
         .attr("cx", d => projection([+d.longitude, +d.latitude])[0])
         .attr("cy", d => projection([+d.longitude, +d.latitude])[1])
         .attr("r", 4)
-        .attr("fill", "blue")
+        .attr("fill", "#67080C")
         .attr("stroke", "black")
-        .attr("stroke-width", "1px")
-        .style("opacity", 0)
-        .transition()
-        .delay((d, i) => i * 50)
-        .duration(500)
-        .style("opacity", 1);
+        .attr("stroke-width", "1px");
+
+    if (options.instant) {
+        // show smelters fully instead of fading in
+        smeltersSelection.style("opacity", 1);
+    } else {
+        // normal animation with delay
+        smeltersSelection
+            .style("opacity", 0)
+            .transition()
+            .delay((d, i) => i * 50)
+            .duration(500)
+            .style("opacity", 1);
+    }
+
 
     svg.selectAll("circle")
         .on("mouseover", (event, d) => {
@@ -59,9 +69,9 @@ export function draw_radius(svg, smelters, projection) {
         .attr("cx", d => projection([+d.longitude, +d.latitude])[0])
         .attr("cy", d => projection([+d.longitude, +d.latitude])[1])
         .attr("r", 0)
-        .attr("fill", "lightblue")
+        .attr("fill", "#C51017")
         .attr("opacity", 0.3)
-        .attr("stroke", "blue")
+        .attr("stroke", "#red")
         .attr("stroke-width", "1px")
         .style("pointer-events", "none")
         .transition()
@@ -69,8 +79,8 @@ export function draw_radius(svg, smelters, projection) {
         .attr("r", scaleRadius(500));
 }
 
-// Scale 500 meters to pixels
+// scale meters to pixels
 function scaleRadius(meters) {
-    const metersPerPixel = 25;  // Approximation for zoom level / projection
+    const metersPerPixel = 25; 
     return meters / metersPerPixel;
 }
