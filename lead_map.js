@@ -13,17 +13,36 @@ export function lead_map(svg, lead_dictionary, topology){
         .range(["white", "red"]);
 
     
-        svg.append("g")
+        var zips = svg.append("g")
         .selectAll("path")
         .data(topology.features)
-        .join("path")
-        .transition()
+        .join("path");
+
+        const tooltip = d3.select("#tooltip");
+
+        zips.on("mouseover", (event, d) => {
+            tooltip.style("display", "block")
+                .html(d.properties.zip_code + " - " + d.properties.perc_5plus + "% above 5 μg/dL")
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 20) + "px");
+        })
+        .on("mousemove", (event, d) => {
+            tooltip.style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 20) + "px");
+        })
+        .on("mouseout", () => {
+            tooltip.style("display", "none");
+        });
+
+        zips.transition()
         .delay((d, i) => 20 * i)
         .duration(400)
             .attr("d", path)
             .attr("fill", (d) => lead_scale(d.properties.perc_5plus))
             .attr("stroke", "black")
-            .attr("stroke-width", "1px");
+            .attr("stroke-width", "1px")
+        ;
+
 
         const margins = { top: 10, right: 30, bottom: 40, left: 30 };
 

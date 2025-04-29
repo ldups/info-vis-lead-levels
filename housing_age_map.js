@@ -12,19 +12,36 @@ export function housing_map(svg, housing_dictionary, topology){
     .domain(d3.extent(housing_dictionary.values()))
     .range(["white", "black"]);
 
-    svg.append("g")
+    var zips = svg.append("g")
     .selectAll("path")
     .data(topology.features)
     .join("path")
-    .transition()
+    .attr("stroke", "black")
+    .attr("stroke-width", "1px");
+
+    const tooltip = d3.select("#tooltip");
+
+    zips.on("mouseover", (event, d) => {
+        tooltip.style("display", "block")
+            .html(d.properties.zip_code + " - " + housing_dictionary.get("" + d.properties.zip_code).toFixed(2) + "% built before 1980")
+            .style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 20) + "px");
+    })
+    .on("mousemove", (event, d) => {
+        tooltip.style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY - 20) + "px");
+    })
+    .on("mouseout", () => {
+        tooltip.style("display", "none");
+    });
+
+    zips.transition()
     .delay((d, i) => 20 * i)
     .duration(400)
     .attr("d", path)
     .attr("fill", (d) => {
         return housing_scale(housing_dictionary.get("" + d.properties.zip_code))}
     )
-    .attr("stroke", "black")
-    .attr("stroke-width", "1px");
 
     const margins = { top: 10, right: 30, bottom: 40, left: 30 };
 

@@ -44,7 +44,9 @@ export function school_performance_chart(svg, data){
          .call(d3.axisLeft(y).ticks(10).tickSize(-width-10))
          .call((g) => g.select(".domain").remove());
 
-    chart.selectAll("circle")
+    const tooltip = d3.select("#tooltip");
+
+    var circles = chart.selectAll("circle")
          .data(data)
          .enter()
          .append("circle")
@@ -53,6 +55,21 @@ export function school_performance_chart(svg, data){
              .attr("opacity", 0.75)
              .attr("cy", function (d) { return y(+d.mean_lead_level); } )
              .attr("fill", function(d) { return ordinal(d.subject) });
+
+     circles
+             .on("mouseover", (event, d) => {
+                 tooltip.style("display", "block")
+                     .html("Blood lead level - " + d.mean_lead_level + "μg/dL")
+                     .style("left", (event.pageX + 10) + "px")
+                     .style("top", (event.pageY - 20) + "px");
+             })
+             .on("mousemove", (event, d) => {
+                 tooltip.style("left", (event.pageX + 10) + "px")
+                 .style("top", (event.pageY - 20) + "px");
+             })
+             .on("mouseout", () => {
+                 tooltip.style("display", "none");
+             });
 
 
     const legend = svg.append("g")
