@@ -64,16 +64,19 @@ Promise.all([
     function display_lead_map(){
         clear();
         lead_map(svg, lead_dictionary, topology);
+        document.getElementById("radius-button-container").style.display = "none";
     }
 
     function display_housing_map(){
         clear();
         housing_map(svg, housing_dictionary, topology);
+        document.getElementById("radius-button-container").style.display = "none";
     }
 
     function display_smelter_map(){
         clear();
         smelter_map(svg, topology, smelters);
+        document.getElementById("radius-button-container").style.display = "block";
     }
 
     function clear(){
