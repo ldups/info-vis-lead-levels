@@ -25,15 +25,17 @@ export function bar_chart(svg, lead_data) {
         .selectAll("text")
         .attr("transform", "rotate(-45)")
         .style("text-anchor", "end")
-        .style("font-size", "10px")
-        .style("fill", d => d === "Philadelphia, PA" ? "red" : "black");
+        .style("font-size", "12px")
+        .style("font-weight", "bold");
+
 
     // create y-axis
     svg.append("g")
         .attr("transform", `translate(${margin.left},0)`)
         .call(d3.axisLeft(y))
         .selectAll("text")
-        .style("font-size", "12px");
+        .style("font-size", "12px")
+        .style("font-weight", "bold");
 
     // draw bars 
     svg.append("g")
@@ -44,7 +46,7 @@ export function bar_chart(svg, lead_data) {
         .attr("y", d => y(+d.value))
         .attr("height", d => y(0) - y(+d.value))
         .attr("width", x.bandwidth())
-        .attr("fill", "red");
+        .attr("fill", d => d.geo_label_citystate === "Philadelphia, PA" ? "#67080C" : "#C51017");
 
     // median line
     svg.append("line")
@@ -52,7 +54,7 @@ export function bar_chart(svg, lead_data) {
         .attr("x2", width - margin.right)
         .attr("y1", y(0.6))
         .attr("y2", y(0.6))
-        .attr("stroke", "black")
+        .attr("stroke", "blue")
         .attr("stroke-dasharray", "4")
         .attr("stroke-width", 2);
 
@@ -62,7 +64,7 @@ export function bar_chart(svg, lead_data) {
         .attr("y", y(0.6) - 8)
         .text("Median 0.6 µg/dL")
         .attr("fill", "black")
-        .style("font-size", "12px");
+        .style("font-size", "14px");
 
     // label for y axis
     svg.append("text")
@@ -71,15 +73,17 @@ export function bar_chart(svg, lead_data) {
         .attr("x", -(height / 2))
         .attr("y", margin.left - 45)
         .text("Blood Lead Level (µg/dL)")
-        .style("font-size", "14px")
+        .style("font-size", "16px")
+        .style("font-weight", "bold")
         .style("fill", "black");
 
     // label for x axis
     svg.append("text")
         .attr("text-anchor", "middle")
         .attr("x", width / 2)
-        .attr("y", height - margin.bottom + 70)
+        .attr("y", height - margin.bottom + 100)
         .text("City")
-        .style("font-size", "14px")
+        .style("font-size", "16px")
+        .style("font-weight", "bold")
         .style("fill", "black");
 }
