@@ -13,6 +13,8 @@ export function smelter_map(svg, topology, smelters) {
         .attr("stroke", "black")
         .attr("stroke-width", "1px");
 
+    const tooltip = d3.select("#tooltip");
+
     // draw smelters -- still need to update to show distance lead impact 
     svg.append("g")
         .selectAll("circle")
@@ -24,10 +26,26 @@ export function smelter_map(svg, topology, smelters) {
         .attr("fill", "blue")
         .attr("stroke", "black")
         .attr("stroke-width", "1px")
-        .style("opacity", 0)   
+        .style("opacity", 0)
         .transition()
-        .delay((d, i) => i * 50) 
+        .delay((d, i) => i * 50)
         .duration(500)
         .style("opacity", 1);
 
+    svg.selectAll("circle")
+    .on("mouseover", (event, d) => {
+        if (d.site_name && d.site_name.trim() !== "") {
+            tooltip.style("display", "block")
+            .html(d.site_name)
+            .style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 20) + "px");
+        }
+    })
+    .on("mousemove", (event, d) => {
+        tooltip.style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY - 20) + "px");
+    })
+    .on("mouseout", () => {
+        tooltip.style("display", "none");
+    });
 }
