@@ -1,0 +1,85 @@
+export function bar_chart(svg, lead_data) {
+    svg.selectAll("*").remove(); // clear the canvas first
+
+    const width = 500;
+    const height = 500;
+    const margin = { top: 60, right: 40, bottom: 100, left: 60 };
+
+    lead_data.sort((a, b) => +a.value - +b.value);
+
+    // create scales 
+    const x = d3.scaleBand()
+        .domain(lead_data.map(d => d.geo_label_citystate))
+        .range([margin.left, width - margin.right])
+        .padding(0.2);
+
+    const y = d3.scaleLinear()
+        .domain([0, d3.max(lead_data, d => +d.value)])
+        .nice()
+        .range([height - margin.bottom, margin.top]);
+
+    // create x-axis 
+    svg.append("g")
+        .attr("transform", `translate(0,${height - margin.bottom})`)
+        .call(d3.axisBottom(x))
+        .selectAll("text")
+        .attr("transform", "rotate(-45)")
+        .style("text-anchor", "end")
+        .style("font-size", "10px")
+        .style("fill", d => d === "Philadelphia, PA" ? "red" : "black");
+
+    // create y-axis
+    svg.append("g")
+        .attr("transform", `translate(${margin.left},0)`)
+        .call(d3.axisLeft(y))
+        .selectAll("text")
+        .style("font-size", "12px");
+
+    // draw bars 
+    svg.append("g")
+        .selectAll("rect")
+        .data(lead_data)
+        .join("rect")
+        .attr("x", d => x(d.geo_label_citystate))
+        .attr("y", d => y(+d.value))
+        .attr("height", d => y(0) - y(+d.value))
+        .attr("width", x.bandwidth())
+        .attr("fill", "red");
+
+    // median line
+    svg.append("line")
+        .attr("x1", margin.left)
+        .attr("x2", width - margin.right)
+        .attr("y1", y(0.6))
+        .attr("y2", y(0.6))
+        .attr("stroke", "black")
+        .attr("stroke-dasharray", "4")
+        .attr("stroke-width", 2);
+
+    // label for median line
+    svg.append("text")
+        .attr("x", margin.left + 5)
+        .attr("y", y(0.6) - 8)
+        .text("Median 0.6 µg/dL")
+        .attr("fill", "black")
+        .style("font-size", "12px");
+
+    // label for y axis
+    svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("transform", `rotate(-90)`)
+        .attr("x", -(height / 2))
+        .attr("y", margin.left - 45)
+        .text("Blood Lead Level (µg/dL)")
+        .style("font-size", "14px")
+        .style("fill", "black");
+
+    // label for x axis
+    svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("x", width / 2)
+        .attr("y", height - margin.bottom + 70)
+        .text("City")
+        .style("font-size", "14px")
+        .style("fill", "black");
+}
