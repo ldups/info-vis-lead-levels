@@ -11,8 +11,8 @@ body{
 
 .fixed {
     position: fixed;
-    max-width: 600px;
-    height: 500px;
+    max-width: 500px;
+    height: 600px;
     top: 75px;
     float: right;
 }
@@ -25,7 +25,7 @@ body{
   padding: 0;
   position: absolute;
   line-height: 1.5;
-  margin-left: 500px;
+  margin-left: 700px;
 }
 
 #container > div {
