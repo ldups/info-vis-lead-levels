@@ -59,10 +59,10 @@ Promise.all([
 
 
     //trigger these functions on page scroll
-    new scroll('div2', '75%', display_school_performance_chart, grid4);  //create a grid for div2
-    new scroll('div3', '75%', display_lead_map, clear); //create a grid for div3
-    new scroll('div4', '75%', display_housing_map, display_lead_map);  //create a grid for div4
-    new scroll('div5', '75%', display_smelter_map, grid4); //create a grid for div4
+    new scroll('school-performance', '75%', display_school_performance_chart, clear);  //create a grid for div2
+    new scroll('lead-zipcode-map', '75%', display_lead_map, clear); //create a grid for div3
+    new scroll('housing-zipcode-map', '75%', display_housing_map, clear);  //create a grid for div4
+    new scroll('smelting-map', '75%', display_smelter_map, clear); //create a grid for div4
 
     function display_lead_map(){
         clear();
@@ -91,7 +91,5 @@ Promise.all([
         school_performance_chart(svg, academic);
     }
 
-    function grid4(){
-    }
 
 })

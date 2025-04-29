@@ -7,7 +7,7 @@ export function school_performance_chart(svg, data){
     .attr("width", width-30)
     .attr("height", height-100);
 
-    const performance_values = ['advanced', 'proficient', 'partially proficient', 'not proficient'];
+    const performance_values = ['advanced', 'proficient', 'partially proficient', 'not proficient'].reverse();
     const subjects = ["mathematics", "science", "reading"];
 
     var x = d3.scaleBand()
@@ -73,7 +73,7 @@ export function school_performance_chart(svg, data){
 
 
     const legend = svg.append("g")
-        .attr("transform", "translate(10, 30)");
+        .attr("transform", "translate(" + (width-140) +", 60)");
          
     subjects.forEach((subject, i) => {
            legend.append("circle")
