@@ -48,44 +48,29 @@ export function smelter_map(svg, topology, smelters) {
         .on("mouseout", () => {
             tooltip.style("display", "none");
         });
+}
 
-     // set toggle state as false
-     let radiusVisible = false;
+export function draw_radius(svg, smelters, projection) {
+    svg.append("g")
+        .attr("class", "radius-circles")
+        .selectAll("circle")
+        .data(smelters)
+        .join("circle")
+        .attr("cx", d => projection([+d.longitude, +d.latitude])[0])
+        .attr("cy", d => projection([+d.longitude, +d.latitude])[1])
+        .attr("r", 0)
+        .attr("fill", "lightblue")
+        .attr("opacity", 0.3)
+        .attr("stroke", "blue")
+        .attr("stroke-width", "1px")
+        .style("pointer-events", "none")
+        .transition()
+        .duration(600)
+        .attr("r", scaleRadius(500));
+}
 
-     // button to display lead impact radius 
-     document.getElementById("show-radius").onclick = function () {
-         const btn = document.getElementById("show-radius");
- 
-         if (!radiusVisible) {
-             svg.append("g")
-                 .attr("class", "radius-circles")
-                 .selectAll("circle")
-                 .data(smelters)
-                 .join("circle")
-                 .attr("cx", d => projection([+d.longitude, +d.latitude])[0])
-                 .attr("cy", d => projection([+d.longitude, +d.latitude])[1])
-                 .attr("r", 0)
-                 .attr("fill", "lightblue")
-                 .attr("opacity", 0.3)
-                 .attr("stroke", "blue")
-                 .attr("stroke-width", "1px")
-                 .style("pointer-events", "none") 
-                 .transition()
-                 .duration(600)
-                 .attr("r", scaleRadius(500));
- 
-             btn.textContent = "Hide 500m Impact Zones";
-             radiusVisible = true;
-         } else {
-             svg.selectAll(".radius-circles").remove();
-             btn.textContent = "Show 500m Impact Zones";
-             radiusVisible = false;
-         }
-     };
- 
-     // set meters per pixel (approximation)
-     function scaleRadius(meters) {
-         const metersPerPixel = 25; 
-         return meters / metersPerPixel;
-     }
- }
+// Scale 500 meters to pixels
+function scaleRadius(meters) {
+    const metersPerPixel = 25;  // Approximation for zoom level / projection
+    return meters / metersPerPixel;
+}
