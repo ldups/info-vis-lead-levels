@@ -59,11 +59,10 @@ Promise.all([
 
 
     //trigger these functions on page scroll
-    //new scroll('div2', '75%', grid2, grid2);  //create a grid for div2
+    new scroll('div2', '75%', display_school_performance_chart, grid4);  //create a grid for div2
     new scroll('div3', '75%', display_lead_map, clear); //create a grid for div3
     new scroll('div4', '75%', display_housing_map, display_lead_map);  //create a grid for div4
     new scroll('div5', '75%', display_smelter_map, grid4); //create a grid for div4
-    new scroll('div5', '75%', display_school_performance_chart, grid4); //create a grid for div4
 
     function display_lead_map(){
         clear();
