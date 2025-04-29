@@ -1,5 +1,6 @@
 import { lead_map } from "./lead_map.js";
 import { housing_map } from "./housing_age_map.js";
+import { smelter_map } from "./smelter_map.js";
 
 //grab our canvas 
 let svg = d3.select("#canvas");
@@ -12,10 +13,12 @@ Promise.all([
     d3.json("./data//child_blood_lead_levels_by_zip.geojson"),
     d3.csv("./data//child_blood_lead_levels_by_zip.csv"),
     d3.csv("./data//philly_housing.csv"),
+    d3.csv("./data/smelters.csv")
   ]).then((data) => { 
     const topology = data[0];
     const lead_levels_zipcode = data[1];
     const housing = data[2];
+    const smelters = data[3];
 
     const lead_dictionary = new Map();
     lead_levels_zipcode.forEach((zipcode) => {
@@ -56,7 +59,7 @@ Promise.all([
     //new scroll('div2', '75%', grid2, grid2);  //create a grid for div2
     new scroll('div3', '75%', display_lead_map, clear); //create a grid for div3
     new scroll('div4', '75%', display_housing_map, display_lead_map);  //create a grid for div4
-    new scroll('div5', '75%', display_lead_map, grid4); //create a grid for div4
+    new scroll('div5', '75%', display_smelter_map, grid4); //create a grid for div4
 
     function display_lead_map(){
         lead_map(svg, lead_dictionary, topology);
@@ -64,6 +67,11 @@ Promise.all([
 
     function display_housing_map(){
         housing_map(svg, housing_dictionary, topology);
+    }
+
+    function display_smelter_map(){
+        clear();
+        smelter_map(svg, topology, smelters);
     }
 
     function clear(){
