@@ -1,0 +1,13 @@
+subject,level,mean_lead_level
+mathematics,advanced,5.81
+mathematics,proficient,6.47
+mathematics,partially proficient,8.31
+mathematics,not proficient,9.10
+science,advanced,5.97
+science,proficient,7.48
+science,partially proficient,8.67
+science,not proficient,9.28
+reading,advanced,5.41
+reading,proficient,6.96
+reading,partially proficient,8.06
+reading,not proficient,8.81

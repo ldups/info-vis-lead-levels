@@ -1,24 +1,27 @@
 import { lead_map } from "./lead_map.js";
 import { housing_map } from "./housing_age_map.js";
 import { smelter_map } from "./smelter_map.js";
+import { school_performance_chart } from "./school_performance_chart.js";
 
 //grab our canvas 
 let svg = d3.select("#canvas");
 
 //set the width and height
-svg.attr('width',600)
+svg.attr('width',500)
     .attr('height',600)
 
 Promise.all([
     d3.json("./data//child_blood_lead_levels_by_zip.geojson"),
     d3.csv("./data//child_blood_lead_levels_by_zip.csv"),
     d3.csv("./data//philly_housing.csv"),
-    d3.csv("./data/smelters.csv")
+    d3.csv("./data/smelters.csv"),
+    d3.csv("./data//academic_performance.csv")
   ]).then((data) => { 
     const topology = data[0];
     const lead_levels_zipcode = data[1];
     const housing = data[2];
     const smelters = data[3];
+    const academic = data[4];
 
     const lead_dictionary = new Map();
     lead_levels_zipcode.forEach((zipcode) => {
@@ -60,6 +63,7 @@ Promise.all([
     new scroll('div3', '75%', display_lead_map, clear); //create a grid for div3
     new scroll('div4', '75%', display_housing_map, display_lead_map);  //create a grid for div4
     new scroll('div5', '75%', display_smelter_map, grid4); //create a grid for div4
+    new scroll('div5', '75%', display_school_performance_chart, grid4); //create a grid for div4
 
     function display_lead_map(){
         clear();
@@ -83,7 +87,9 @@ Promise.all([
         svg.selectAll('*').remove();
     }
 
-    function grid3(){
+    function display_school_performance_chart(){
+        clear();
+        school_performance_chart(svg, academic);
     }
 
     function grid4(){
