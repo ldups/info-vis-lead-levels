@@ -4,6 +4,7 @@ import { smelter_map, draw_radius } from "./smelter_map.js";
 import { school_performance_chart } from "./school_performance_chart.js";
 import { bar_chart } from "./bar_chart.js";
 import { draw_schools } from "./school_map.js";
+import { draw_playgrounds } from "./playground_map.js";
 
 //grab our canvas 
 let svg = d3.select("#canvas");
@@ -19,7 +20,8 @@ Promise.all([
     d3.csv("./data/smelters.csv"),
     d3.csv("./data//academic_performance.csv"),
     d3.csv("./data/lead_levels_by_city_2022.csv"),
-    d3.csv("./data/cleaned_philly_schools.csv")
+    d3.csv("./data/cleaned_philly_schools.csv"),
+    d3.csv("./data/playgrounds.csv")
 ]).then((data) => {
     const topology = data[0];
     const lead_levels_zipcode = data[1];
@@ -28,6 +30,7 @@ Promise.all([
     const academic = data[4];
     const city_lead_levels = data[5];
     const schools = data[6];
+    const playgrounds = data[7];
 
     const lead_dictionary = new Map();
     lead_levels_zipcode.forEach((zipcode) => {
@@ -65,13 +68,14 @@ Promise.all([
 
 
     //trigger these functions on page scroll
-    new scroll('school-performance', '75%', display_school_performance_chart, clear);  //create a grid for div2
-    new scroll('city-bar-chart', '75%', display_city_bar_chart, clear);
-    new scroll('lead-zipcode-map', '75%', display_lead_map, clear); //create a grid for div3
-    new scroll('housing-zipcode-map', '75%', display_housing_map, clear);  //create a grid for div4
-    new scroll('smelting-map', '75%', display_smelter_map, clear); //create a grid for div4
-    new scroll('smelting-impact', '75%', display_smelter_with_radius, clear);
+    new scroll('school-performance', '75%', display_school_performance_chart, clear);  
+    new scroll('city-bar-chart', '75%', display_city_bar_chart, display_school_performance_chart);
+    new scroll('lead-zipcode-map', '75%', display_lead_map, display_city_bar_chart); 
+    new scroll('housing-zipcode-map', '75%', display_housing_map, display_lead_map);  
+    new scroll('smelting-map', '75%', display_smelter_map, display_housing_map); 
+    new scroll('smelting-impact', '75%', display_smelter_with_radius, display_smelter_map);
     new scroll('school-map', '75%', display_school_map, display_smelter_with_radius);
+    new scroll('playground-map', '75%', display_playground_map, display_school_map);
 
     function display_lead_map() {
         clear();
@@ -111,12 +115,20 @@ Promise.all([
         smelter_map(svg, topology, smelters, { instant: true });
         draw_radius(svg, smelters, projection);
     }
-    
+
     function display_school_map() {
         clear();
         const projection = d3.geoAlbersUsa().fitSize([500, 500], topology);
         smelter_map(svg, topology, smelters, { instant: true });
         draw_radius(svg, smelters, projection);
         draw_schools(svg, schools, projection);
+    }
+
+    function display_playground_map() {
+        clear();
+        const projection = d3.geoAlbersUsa().fitSize([500, 500], topology);
+        smelter_map(svg, topology, smelters, { instant: true });
+        draw_radius(svg, smelters, projection);
+        draw_playgrounds(svg, playgrounds, projection);
     }
 })
