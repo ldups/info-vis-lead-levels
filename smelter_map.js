@@ -41,23 +41,22 @@ export function smelter_map(svg, topology, smelters, options = {}) {
             .style("opacity", 1);
     }
 
-
     svg.selectAll("circle")
-        .on("mouseover", (event, d) => {
-            if (d.site_name && d.site_name.trim() !== "") {
-                tooltip.style("display", "block")
-                    .html(d.site_name)
-                    .style("left", (event.pageX + 10) + "px")
-                    .style("top", (event.pageY - 20) + "px");
-            }
-        })
-        .on("mousemove", (event, d) => {
-            tooltip.style("left", (event.pageX + 10) + "px")
+         .on("mouseover", (event, d) => {
+        if (d.site_name && d.site_name.trim() !== "") {
+            tooltip.style("display", "block")
+                .html(d.site_name)
+                .style("left", (event.pageX + 10) + "px")
                 .style("top", (event.pageY - 20) + "px");
-        })
-        .on("mouseout", () => {
-            tooltip.style("display", "none");
-        });
+        }
+    })
+    .on("mousemove", (event, d) => {
+        tooltip.style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 20) + "px");
+    })
+    .on("mouseout", () => {
+        tooltip.style("display", "none");
+    });
 }
 
 export function draw_radius(svg, smelters, projection) {
@@ -81,6 +80,6 @@ export function draw_radius(svg, smelters, projection) {
 
 // scale meters to pixels
 function scaleRadius(meters) {
-    const metersPerPixel = 25; 
+    const metersPerPixel = 25;
     return meters / metersPerPixel;
 }
