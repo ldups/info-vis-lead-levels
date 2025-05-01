@@ -54,6 +54,7 @@ export function housing_map(svg, housing_dictionary, topology){
     const legend = d3.select("#legend-svg");
 
     legend.append("text")
+            .attr("class", "home-age-context")
             .attr("x", margins.left)
             .attr("y", height-60)
             .text("(Lead paint in homes was banned in 1978.)")

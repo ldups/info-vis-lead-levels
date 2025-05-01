@@ -5,6 +5,7 @@ import { school_performance_chart } from "./visualizations/school_performance_ch
 import { bar_chart} from "./visualizations/bar_chart.js";
 import { draw_schools } from "./visualizations/school_map.js";
 import { draw_playgrounds } from "./visualizations/playground_map.js";
+import { add_demolition_sites } from "./visualizations/demolition_map.js";
 
 //grab our canvas 
 let svg = d3.select("#canvas");
@@ -22,7 +23,8 @@ Promise.all([
     d3.csv("./data/lead_levels_by_city_2022.csv"),
     d3.csv("./data/cleaned_philly_schools.csv"),
     d3.csv("./data/playgrounds.csv"),
-    d3.csv("./data/census_physical_housing.csv")
+    d3.csv("./data/demolitions.csv"),
+    d3.csv("./data/philly_zip_code_centers.csv")
 ]).then((data) => {
     const topology = data[0];
     const lead_levels_zipcode = data[1];
@@ -32,6 +34,8 @@ Promise.all([
     const city_lead_levels = data[5];
     const schools = data[6];
     const playgrounds = data[7];
+    const demolitions = data[8];
+    const zip_centers = data[9];
 
     const lead_dictionary = new Map();
     lead_levels_zipcode.forEach((zipcode) => {
@@ -77,7 +81,8 @@ Promise.all([
     new scroll('city-bar-chart-2', '75%', display_city_bar_chart_35_line, display_school_performance_chart);
     new scroll('lead-zipcode-map', '75%', display_lead_map, display_city_bar_chart_35_line); 
     new scroll('housing-zipcode-map', '75%', display_housing_map, display_lead_map);  
-    new scroll('smelting-map', '75%', display_smelter_map, display_housing_map); 
+    new scroll('demolition-map', '75%', display_demolition_map, display_housing_map);  
+    new scroll('smelting-map', '75%', display_smelter_map, display_demolition_map); 
     new scroll('smelting-impact', '75%', display_smelter_with_radius, display_smelter_map);
     new scroll('school-map', '75%', display_school_map, display_smelter_with_radius);
     new scroll('playground-map', '75%', display_playground_map, display_school_map);
@@ -91,6 +96,14 @@ Promise.all([
     function display_housing_map() {
         clear();
         housing_map(svg, housing_dictionary, topology);
+    }
+
+    function display_demolition_map(){
+        const width = 500;
+        const height = 600; 
+        var projection = d3.geoAlbersUsa().fitSize([width-75,height-75], topology);
+        d3.select(".home-age-context").remove();
+        add_demolition_sites(svg, projection, demolitions, zip_centers);
     }
 
     function display_city_bar_chart() {
