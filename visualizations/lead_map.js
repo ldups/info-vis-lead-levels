@@ -1,4 +1,4 @@
-import { color_legend } from "./helpers//color_legend.js";
+import { color_legend } from "../helpers/color_legend.js";
 
 export function lead_map(svg, lead_dictionary, topology){   
         const width = 500;

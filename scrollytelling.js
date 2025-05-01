@@ -1,10 +1,10 @@
-import { lead_map } from "./lead_map.js";
-import { housing_map } from "./housing_age_map.js";
-import { smelter_map, draw_radius } from "./smelter_map.js";
-import { school_performance_chart } from "./school_performance_chart.js";
-import { bar_chart} from "./bar_chart.js";
-import { draw_schools } from "./school_map.js";
-import { draw_playgrounds } from "./playground_map.js";
+import { lead_map } from "./visualizations/lead_map.js";
+import { housing_map } from "./visualizations/housing_age_map.js";
+import { smelter_map, draw_radius } from "./visualizations/smelter_map.js";
+import { school_performance_chart } from "./visualizations/school_performance_chart.js";
+import { bar_chart} from "./visualizations/bar_chart.js";
+import { draw_schools } from "./visualizations/school_map.js";
+import { draw_playgrounds } from "./visualizations/playground_map.js";
 
 //grab our canvas 
 let svg = d3.select("#canvas");
@@ -37,9 +37,6 @@ Promise.all([
     lead_levels_zipcode.forEach((zipcode) => {
         lead_dictionary.set(zipcode.zip_code, +zipcode.perc_5plus)
     })
-
-    console.log(data[8]);
-    console.log(housing);
 
     const housing_dictionary = new Map();
     housing.forEach((zipcode) => {
