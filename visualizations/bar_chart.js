@@ -38,7 +38,7 @@ export function bar_chart(svg, lead_data, draw35line=false) {
         .style("font-weight", "bold");
 
     // draw bars 
-    svg.append("g")
+    const rects = svg.append("g")
         .selectAll("rect")
         .data(lead_data)
         .join("rect")
@@ -47,6 +47,22 @@ export function bar_chart(svg, lead_data, draw35line=false) {
         .attr("height", d => y(0) - y(+d.value))
         .attr("width", x.bandwidth())
         .attr("fill", d => d.geo_label_citystate === "Philadelphia, PA" ? "#67080C" : "#C51017");
+    
+    const tooltip = d3.select("#tooltip");
+
+    rects.on("mouseover", (event, d) => {
+            tooltip.style("display", "block")
+                .html("<span class='tooltip-text-bold'>" + d.geo_label_citystate + "</span>" +" " + d.value + " μg/dL")
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 20) + "px");
+        })
+        .on("mousemove", (event, d) => {
+            tooltip.style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 20) + "px");
+        })
+        .on("mouseout", () => {
+            tooltip.style("display", "none");
+        });
 
     if (draw35line){
         svg.append("line")

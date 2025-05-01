@@ -74,3 +74,15 @@ p,li {
 h1, h2, h3, p, li {
   line-height: 1.5;
 }
+
+.tooltip-text-bold{
+  font-weight: 700;
+}
+
+.tooltip-text-green{
+  color: forestgreen;
+}
+
+.tooltip-text-blue{
+  color: cornflowerblue;
+}
