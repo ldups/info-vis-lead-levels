@@ -2,7 +2,7 @@ import { lead_map } from "./lead_map.js";
 import { housing_map } from "./housing_age_map.js";
 import { smelter_map, draw_radius } from "./smelter_map.js";
 import { school_performance_chart } from "./school_performance_chart.js";
-import { bar_chart } from "./bar_chart.js";
+import { bar_chart} from "./bar_chart.js";
 import { draw_schools } from "./school_map.js";
 import { draw_playgrounds } from "./playground_map.js";
 
@@ -77,7 +77,8 @@ Promise.all([
     new scroll('school-performance', '75%', display_school_performance_chart, clear);  
     new scroll('school-performance-2', '75%', clear, display_school_performance_chart);  
     new scroll('city-bar-chart', '75%', display_city_bar_chart, display_school_performance_chart);
-    new scroll('lead-zipcode-map', '75%', display_lead_map, display_city_bar_chart); 
+    new scroll('city-bar-chart-2', '75%', display_city_bar_chart_35_line, display_school_performance_chart);
+    new scroll('lead-zipcode-map', '75%', display_lead_map, display_city_bar_chart_35_line); 
     new scroll('housing-zipcode-map', '75%', display_housing_map, display_lead_map);  
     new scroll('smelting-map', '75%', display_smelter_map, display_housing_map); 
     new scroll('smelting-impact', '75%', display_smelter_with_radius, display_smelter_map);
@@ -103,6 +104,16 @@ Promise.all([
         const combined = bottom5.concat(top5);
 
         bar_chart(svg, combined);
+    }
+
+    function display_city_bar_chart_35_line() {
+        clear();
+        const city_lead_clean = city_lead_levels.filter(d => d.value !== "" && !isNaN(+d.value));
+        const top5 = city_lead_clean.sort((a, b) => +b.value - +a.value).slice(0, 5);
+        const bottom5 = city_lead_clean.sort((a, b) => +a.value - +b.value).slice(0, 5);
+        const combined = bottom5.concat(top5);
+
+        bar_chart(svg, combined, true);
     }
 
     function display_smelter_map() {

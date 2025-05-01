@@ -1,4 +1,4 @@
-export function bar_chart(svg, lead_data) {
+export function bar_chart(svg, lead_data, draw35line=false) {
     svg.selectAll("*").remove(); // clear the canvas first
 
     const width = 500;
@@ -47,6 +47,24 @@ export function bar_chart(svg, lead_data) {
         .attr("height", d => y(0) - y(+d.value))
         .attr("width", x.bandwidth())
         .attr("fill", d => d.geo_label_citystate === "Philadelphia, PA" ? "#67080C" : "#C51017");
+
+    if (draw35line){
+        svg.append("line")
+        .attr("x1", margin.left)
+        .attr("x2", width - margin.right)
+        .attr("y1", y(3.5))
+        .attr("y2", y(3.5))
+        .attr("stroke", "blue")
+        .attr("stroke-dasharray", "4")
+        .attr("stroke-width", 2);
+
+        svg.append("text")
+        .attr("x", margin.left + 5)
+        .attr("y", y(3.5) - 8)
+        .text("Elevated: 3.5 µg/dL")
+        .attr("fill", "black")
+        .style("font-size", "14px");
+    }
 
     // median line
     svg.append("line")

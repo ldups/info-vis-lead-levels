@@ -46,7 +46,7 @@ export function lead_map(svg, lead_dictionary, topology){
         ;
 
 
-        const margins = { top: 10, right: 30, bottom: 40, left: 30 };
+        const margins = { top: 10, right: 30, bottom: 55, left: 30 };
 
         const x_scale = d3.scaleLinear()
             .domain(d3.extent(lead_dictionary.values()))
@@ -58,7 +58,7 @@ export function lead_map(svg, lead_dictionary, topology){
 
         legend.append("rect")
             .attr("x", width-100)
-            .attr("y", height-130)
+            .attr("y", height-150)
             .attr("width", 20)
             .attr("height", 20)
             .attr("fill", "black")
@@ -66,9 +66,16 @@ export function lead_map(svg, lead_dictionary, topology){
 
         legend.append("text")
             .attr("x", width -70)
-            .attr("y", height-120)
+            .attr("y", height-140)
             .text("No data")
             .style("font-size", "12px")
+            .attr("alignment-baseline", "middle");
+
+        legend.append("text")
+            .attr("x", margins.left)
+            .attr("y", height-60)
+            .text("(Historically, 5 μg/dL was the threshold for elevated lead levels)")
+            .style("font-size", "13px")
             .attr("alignment-baseline", "middle");
 
 }

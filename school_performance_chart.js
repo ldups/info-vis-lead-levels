@@ -8,6 +8,12 @@ export function school_performance_chart(svg, data){
     .attr("height", height-100);
 
     const performance_values = ['advanced', 'proficient', 'partially proficient', 'not proficient'];
+    const performance_colors = {
+        'advanced': '#2ca02c',
+        'proficient': '#b2df8a',
+        'partially proficient': '#fdb863',
+        'not proficient': '#d7191c'
+    };
     const subjects = ["mathematics", "science", "reading"];
 
     var y = d3.scaleBand()
@@ -39,13 +45,17 @@ export function school_performance_chart(svg, data){
          .call( d3.axisBottom(x).ticks(10).tickSize(-height+120))
          .call((g) => g.select(".domain").remove()); 
            
-    chart.append("g")
+    const yaxis = chart.append("g")
     .attr("transform", "translate(20,0)")
          .call(d3.axisLeft(y).ticks(10).tickSize(-width+100))
          .call((g) => g.selectAll("text")
             .attr("transform", "rotate(-65)")
             .style("text-anchor", "end"))
          .call((g) => g.select(".domain").remove());
+
+    yaxis.selectAll("text")
+        .style("fill", d => performance_colors[d])
+        .attr("font-weight", "bold");
 
     const tooltip = d3.select("#tooltip");
 

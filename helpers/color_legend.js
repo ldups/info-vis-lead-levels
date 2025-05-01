@@ -38,7 +38,7 @@ export function color_legend(svg, scale, x_scale, margin, width, height, legend_
       .call(x_axis);
 
     svg.append("g")
-        .attr("transform", `translate(0,${margin.bottom -5})`)
+        .attr("transform", `translate(0,${margin.bottom -20})`)
         .append("text")
         .attr("x", margin.left)
         .attr("y", height - margin.bottom)

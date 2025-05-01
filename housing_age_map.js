@@ -43,11 +43,20 @@ export function housing_map(svg, housing_dictionary, topology){
         return housing_scale(housing_dictionary.get("" + d.properties.zip_code))}
     )
 
-    const margins = { top: 10, right: 30, bottom: 40, left: 30 };
+    const margins = { top: 10, right: 30, bottom: 55, left: 30 };
 
     const x_scale = d3.scaleLinear()
         .domain(d3.extent(housing_dictionary.values()))
         .range([margins.left, width - margins.right]);
 
     color_legend(svg, housing_scale, x_scale, margins, width, height, "Percent homes built before 1980");
+
+    const legend = d3.select("#legend-svg");
+
+    legend.append("text")
+            .attr("x", margins.left)
+            .attr("y", height-60)
+            .text("(Lead paint in homes was banned in 1978.)")
+            .style("font-size", "13px")
+            .attr("alignment-baseline", "middle");
 }
