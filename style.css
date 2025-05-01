@@ -50,3 +50,27 @@ body{
     color: rgb(194, 194, 194);
     opacity: 0.5;
 }
+
+.lead-heading h1 {
+    font-size: 36px; /* adjust as needed */
+}
+
+h1 {
+  font-size: 48px;
+}
+
+h2 {
+  font-size: 36px;
+}
+
+h3 {
+  font-size: 30px;
+}
+
+p,li {
+  font-size: 30px;
+}
+
+h1, h2, h3, p, li {
+  line-height: 1.5;
+}
