@@ -83,7 +83,7 @@ Promise.all([
     new scroll('smelting-impact', '75%', display_smelter_with_radius, display_smelter_map);
     new scroll('school-map', '75%', display_school_map, display_smelter_with_radius);
     new scroll('playground-map', '75%', display_playground_map, display_school_map);
-    new scroll('credits', '75%', clear, display_playground_map);
+    new scroll('call-to-action-1', '75%', clear, display_playground_map);
 
     function display_lead_map() {
         clear();

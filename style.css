@@ -19,6 +19,14 @@ body{
     font-weight: 300;
  }
 
+ .red{
+  color:red;
+ }
+
+ .blue{
+  color:dodgerblue;
+ }
+
 .fixed {
     position: fixed;
     max-width: 500px;
