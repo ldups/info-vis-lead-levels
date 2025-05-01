@@ -22,7 +22,9 @@ export function lead_map(svg, lead_dictionary, topology){
 
         zips.on("mouseover", (event, d) => {
             tooltip.style("display", "block")
-                .html(d.properties.zip_code + " - " + d.properties.perc_5plus + "% above 5 μg/dL")
+                .html(d.properties.zip_code + " - " +( d.properties.perc_5plus != null ?
+                    d.properties.perc_5plus + "% above 5 μg/dL" :
+                "No data"))
                 .style("left", (event.pageX + 10) + "px")
                 .style("top", (event.pageY - 20) + "px");
         })
