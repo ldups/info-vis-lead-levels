@@ -52,4 +52,21 @@ export function lead_map(svg, lead_dictionary, topology){
 
         color_legend(svg, lead_scale, x_scale, margins, width, height, "Percent children with blood lead levels >= 5 μg/dL");
 
+        const legend = d3.select("#legend-svg");
+
+        legend.append("rect")
+            .attr("x", width-100)
+            .attr("y", height-130)
+            .attr("width", 20)
+            .attr("height", 20)
+            .attr("fill", "black")
+            .attr("stroke", "black");
+
+        legend.append("text")
+            .attr("x", width -70)
+            .attr("y", height-120)
+            .text("No data")
+            .style("font-size", "12px")
+            .attr("alignment-baseline", "middle");
+
 }

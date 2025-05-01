@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,600');
 
+.section[data-has-vis="true"]{
+  margin-left: 500px;
+  max-width: 50%
+}
+
+.section[data-has-vis="false"]{
+  margin-left: 0;
+  max-width: 100%;
+}
+
 body{
     height: 100%;
     padding: 50px;
@@ -17,23 +27,16 @@ body{
     float: right;
 }
 
-#container {
-  height: 100%;
-  max-width: 600px;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  line-height: 1.5;
-  margin-left: 700px;
+.section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 80%;
+  min-height: 100vh;
+  padding: 50px 50px;
+  box-sizing: border-box;
 }
-
-#container > div {
-    height: 1200px;
-    display: block;
-    padding: 0 45px;
-  }
-
 
 .tick > line {
     color: rgb(194, 194, 194);

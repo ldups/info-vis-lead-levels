@@ -21,7 +21,8 @@ Promise.all([
     d3.csv("./data//academic_performance.csv"),
     d3.csv("./data/lead_levels_by_city_2022.csv"),
     d3.csv("./data/cleaned_philly_schools.csv"),
-    d3.csv("./data/playgrounds.csv")
+    d3.csv("./data/playgrounds.csv"),
+    d3.csv("./data/census_physical_housing.csv")
 ]).then((data) => {
     const topology = data[0];
     const lead_levels_zipcode = data[1];
@@ -37,16 +38,19 @@ Promise.all([
         lead_dictionary.set(zipcode.zip_code, +zipcode.perc_5plus)
     })
 
+    console.log(data[8]);
+    console.log(housing);
+
     const housing_dictionary = new Map();
     housing.forEach((zipcode) => {
         let parsed_zipcode = zipcode.NAME.replace('ZCTA5 ', '');
-        let built_2020 = +zipcode.S2504_C03_009E;
-        let built_2010_2019 = +zipcode.S2504_C03_010E;
-        let built_2000_2009 = +zipcode.S2504_C03_011E;
-        let built_1980_1999 = +zipcode.S2504_C03_012E;
-        let built_1960_1979 = +zipcode.S2504_C03_013E;
-        let built_1940_1959 = +zipcode.S2504_C03_014E;
-        let built_1939 = +zipcode.S2504_C03_015E;
+        let built_2020 = +zipcode.S2504_C01_009E;
+        let built_2010_2019 = +zipcode.S2504_C01_010E;
+        let built_2000_2009 = +zipcode.S2504_C01_011E;
+        let built_1980_1999 = +zipcode.S2504_C01_012E;
+        let built_1960_1979 = +zipcode.S2504_C01_013E;
+        let built_1940_1959 = +zipcode.S2504_C01_014E;
+        let built_1939 = +zipcode.S2504_C01_015E;
         let total_homes = built_2020 + built_2010_2019 + built_2000_2009 + built_1980_1999 + built_1960_1979 + built_1940_1959 + built_1939;
         let before_1980 = built_1960_1979 + built_1940_1959 + built_1939;
         let perc_before_1980 = (before_1980 / total_homes) * 100;
@@ -60,6 +64,8 @@ Promise.all([
             element: document.getElementById(n),
             handler: function (direction) {
                 direction == 'down' ? func1() : func2();
+                //const hasVis = section.getAttribute('data-has-vis') === 'true';
+                //document.querySelector('.fixed').style.display = hasVis ? 'block' : 'none';
             },
             //start 75% from the top of the div
             offset: offset
@@ -69,6 +75,7 @@ Promise.all([
 
     //trigger these functions on page scroll
     new scroll('school-performance', '75%', display_school_performance_chart, clear);  
+    new scroll('school-performance-2', '75%', clear, display_school_performance_chart);  
     new scroll('city-bar-chart', '75%', display_city_bar_chart, display_school_performance_chart);
     new scroll('lead-zipcode-map', '75%', display_lead_map, display_city_bar_chart); 
     new scroll('housing-zipcode-map', '75%', display_housing_map, display_lead_map);  
@@ -76,6 +83,7 @@ Promise.all([
     new scroll('smelting-impact', '75%', display_smelter_with_radius, display_smelter_map);
     new scroll('school-map', '75%', display_school_map, display_smelter_with_radius);
     new scroll('playground-map', '75%', display_playground_map, display_school_map);
+    new scroll('credits', '75%', clear, display_playground_map);
 
     function display_lead_map() {
         clear();

@@ -10,7 +10,7 @@ export function housing_map(svg, housing_dictionary, topology){
     // scale for lead levels
     var housing_scale = d3.scaleSequential()
     .domain(d3.extent(housing_dictionary.values()))
-    .range(["white", "black"]);
+    .interpolator(d3.interpolateBuPu);
 
     var zips = svg.append("g")
     .selectAll("path")
