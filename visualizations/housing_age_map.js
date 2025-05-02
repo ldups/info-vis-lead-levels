@@ -7,7 +7,7 @@ export function housing_map(svg, housing_dictionary, topology){
     var projection = d3.geoAlbersUsa().fitSize([width-75,height-75], topology);
     var path = d3.geoPath(projection);
 
-    // scale for lead levels
+    // scale for home age
     var housing_scale = d3.scaleSequential()
     .domain(d3.extent(housing_dictionary.values()))
     .interpolator(d3.interpolateBuPu);

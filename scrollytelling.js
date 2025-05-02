@@ -6,6 +6,7 @@ import { bar_chart} from "./visualizations/bar_chart.js";
 import { draw_schools } from "./visualizations/school_map.js";
 import { draw_playgrounds } from "./visualizations/playground_map.js";
 import { add_demolition_sites } from "./visualizations/demolition_map.js";
+import { soil_map } from "./visualizations/soil_map.js";
 
 //grab our canvas 
 let svg = d3.select("#canvas");
@@ -24,7 +25,8 @@ Promise.all([
     d3.csv("./data/cleaned_philly_schools.csv"),
     d3.csv("./data/playgrounds.csv"),
     d3.csv("./data/demolitions.csv"),
-    d3.csv("./data/philly_zip_code_centers.csv")
+    d3.csv("./data/philly_zip_code_centers.csv"),
+    d3.csv("./data/SitesLeadContent.csv")
 ]).then((data) => {
     const topology = data[0];
     const lead_levels_zipcode = data[1];
@@ -36,6 +38,7 @@ Promise.all([
     const playgrounds = data[7];
     const demolitions = data[8];
     const zip_centers = data[9];
+    const soil = data[10];
 
     const lead_dictionary = new Map();
     lead_levels_zipcode.forEach((zipcode) => {
@@ -86,7 +89,8 @@ Promise.all([
     new scroll('smelting-impact', '75%', display_smelter_with_radius, display_smelter_map);
     new scroll('school-map', '75%', display_school_map, display_smelter_with_radius);
     new scroll('playground-map', '75%', display_playground_map, display_school_map);
-    new scroll('call-to-action-1', '75%', clear, display_playground_map);
+    new scroll('soil', '75%', display_soil_map, display_playground_map);
+    new scroll('call-to-action-1', '75%', clear, display_soil_map);
 
     function display_lead_map() {
         clear();
@@ -96,6 +100,11 @@ Promise.all([
     function display_housing_map() {
         clear();
         housing_map(svg, housing_dictionary, topology);
+    }
+
+    function display_soil_map() {
+        clear();
+        soil_map(svg, soil, topology);
     }
 
     function display_demolition_map(){
