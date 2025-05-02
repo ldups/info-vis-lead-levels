@@ -2,7 +2,7 @@
 
 This interactive web based data visualization explores the devastating and lasting effects of childhood blood lead exposure in Philadelphia. 
 
-Through a series of scrollytelling trensitions powered by D3.js, it connects blood lead levels to housing, historical practices, education, and playground infrastructure, all within the city’s geography.
+Through a series of scrollytelling transitions powered by D3.js, it connects blood lead levels to housing, historical practices, education, and playground infrastructure, all within the city’s geography.
 
 ## Demo
 
